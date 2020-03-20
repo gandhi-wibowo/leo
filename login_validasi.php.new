@@ -1,0 +1,51 @@
+<?php
+require_once "library/koneksi.php";
+require_once "library/library.php";
+opendb();
+
+$usr	= $_POST['usr'];
+$pwrd	= $_POST['pwrd'];
+if(isset($_POST['checkUser'])){
+
+session_start();
+	$isUser = false;
+
+	$userLogin = secure(trim($_POST['usr']));
+	$password  = md5(secure(trim($_POST['pwrd'])));
+	$queryUser = "SELECT * FROM tbluser WHERE nm_user='{$userLogin}' AND password = '{$password}'";
+	$exeUser = mysqli_query($db_link,$queryUser);
+	while ($data = mysqli_fetch_assoc($exeUser)){
+		$_SESSION['SES_LOGIN'] = $data['nm_user'];
+		$_SESSION['kd_user'] = $data['kd_user'];
+		$_SESSION['nm_user'] = $data['nm_user'];
+		$_SESSION['USER_LEVEL'] = $data['level'];
+		$isUser = true;
+		echo "<script>document.location.href='page.php?open=home'</script>";
+	}
+
+	if (!$isUser) {
+		if ($userLogin == secure(trim($_POST['pwrd']))) {
+			$queryUser = "SELECT * FROM tblpersonil WHERE nrp='{$userLogin}'";
+			$exeUser = mysqli_query($db_link,$queryUser);
+			while ($data = mysqli_fetch_assoc($exeUser)){
+				$_SESSION['SES_LOGIN'] = $data['nrp'];
+				$_SESSION['kd_user'] = $data['nrp'];
+				$_SESSION['nm_user'] = $data['nama'];
+				$_SESSION['USER_LEVEL'] = "Personil";
+				echo "<script>document.location.href='page.php?open=personil'</script>";				
+			}
+		}
+		else{
+			// gagal login personil
+			echo "<div class=\"alert alert-danger alert-dismissible\" role=\"alert\">";
+			echo "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\"><span aria-hidden=\"true\">&times;</span></button>";
+			echo "Username / Password salah !";
+			echo "</div>";			
+		}
+	}
+}
+else{
+	echo "<script>document.location.href='index.php'</script>";
+}
+
+?>
