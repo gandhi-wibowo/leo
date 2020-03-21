@@ -1,7 +1,40 @@
 <?php
 #tanggal komputer
 date_default_timezone_set("Asia/Jakarta");
+function createTr($data){
+  $ret = "";
+  $no = 0;
+  foreach ($data as $key => $value) {
+    if ($key == "kondisi klinis" || $key == "tingkat kejenuhan" || $key == "tingkat stress") {
+      if ($key == "kondisi klinis") {
+        $key = "A. ".$key;
+      }
+      if ($key == "tingkat kejenuhan") {
+        $key = "B. ".$key;
+      }
+      if ($key == "tingkat stress") {
+        $key = "C. ".$key;
+      }
 
+      $ret.= "
+      <tr>
+      <td style='background-color: #ffffaa' colspan='2'>{$key}</td>
+      <td style='background-color: #ffffaa' align='center'>{$value}</td>
+      </tr>
+      ";
+    }
+    else{
+      $ret.= "
+      <tr>
+      <td style='background-color: #ffffff' align='center'>".$no++."</td>
+      <td style='background-color: #ffffff' align='center'>{$key}</td>
+      <td style='background-color: #ffffff' align='center'>{$value}</td>
+      </tr>
+      ";      
+    }
+  }
+  echo $ret;
+}
 function hiddenFormSearch($get){
   $ret = "";
   foreach($get AS $key => $value){
