@@ -73,6 +73,16 @@ $_SESSION['USER_LEVEL'] ? $levelAkses = trim($_SESSION['USER_LEVEL']) : $levelAk
           format: 'DD-MM-YYYY',
         });
       });
+      $(function () {
+        $('#awal').datetimepicker({
+          format: 'YYYY-MM-DD',
+        });
+      });
+      $(function () {
+        $('#akhir').datetimepicker({
+          format: 'YYYY-MM-DD',
+        });
+      });      
     </script>
     <script type="text/javascript">
     //tabel lookup

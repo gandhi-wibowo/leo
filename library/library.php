@@ -38,7 +38,7 @@ function createTr($data){
 function hiddenFormSearch($get){
   $ret = "";
   foreach($get AS $key => $value){
-    if($key != "cari") $ret.= "<input type='hidden' name='{$key}' value='{$value}'>";
+    if($key != "cari" && $key != "awal" && $key != "akhir") $ret.= "<input type='hidden' name='{$key}' value='{$value}'>";
   }
   echo $ret;
 }
